@@ -31,10 +31,12 @@ def green_color = new Colors_pick(fg: 32, bg: 49)
 def blue_color = new Colors_pick(fg: 34, bg: 49)
 def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
+def labels = ['node1', 'node2']
+
 pipeline {
 
   parameters {
-        string(name: 'TESTDIR', defaultValue: 'molecule-test')
+        string(name: 'TESTDIR', defaultValue: 'virtenv')
       }
 
   environment {
@@ -50,6 +52,7 @@ pipeline {
     // sudo curl -fsSL get.docker.com | bash
     label 'linux'
   }
+  echo GIT_BRANCH
 
   stages {
 
