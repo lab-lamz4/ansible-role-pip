@@ -52,12 +52,12 @@ pipeline {
     // sudo curl -fsSL get.docker.com | bash
     label 'linux'
   }
-  echo GIT_BRANCH
 
   stages {
 
     stage ('Clean env to run test clearly') {
       steps {
+        echo GIT_BRANCH
         script {
           printInfo(green_color, 'Check if venv folder exist')
 
