@@ -97,19 +97,18 @@ def generateStage(job, node_name) {
 
           stage("Run molecule test  ${job}") {
             sh """
-              #source virtenv/bin/activate
-              echo "molecule test -s ${job}"
+              . ${TESTDIR}/bin/activate > /dev/null 2>&1
+              molecule test -s ${job}"
             """
           }
         }
     }
 }
 
-def scenarios = [default : 'node1', rhel7 : 'node2']
-// def scenarios = [default : 'node1']
+// def scenarios = [default : 'node1', rhel7 : 'node2']
+def scenarios = [default : 'node1']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
-    //["${it}" : generateStage(it)]
 }
 
 
