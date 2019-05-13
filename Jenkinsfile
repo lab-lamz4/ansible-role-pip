@@ -96,29 +96,28 @@ def moleculeTest(scenario_name){
   """
 }
 
-def generateStage(job, node) {
+def generateStage(job, node_name) {
     return {
-        agent {
-          label "${node}"
-        }
-        stage ("Clean env to run test clearly for ${job}") {
-          steps {
-            prepareEnv()
+        node (node_name) {
+          stage ("Clean env to run test clearly for ${job}") {
+            steps {
+              prepareEnv()
+            }
           }
-        }
-        stage ("Setup Python virtual environment ${job}") {
-          steps {
-            initEnv()
+          stage ("Setup Python virtual environment ${job}") {
+            steps {
+              initEnv()
+            }
           }
-        }
-        stage ("Display versions  ${job}") {
-          steps {
-            displayVers()
+          stage ("Display versions  ${job}") {
+            steps {
+              displayVers()
+            }
           }
-        }
-        stage("Run molecule test  ${job}") {
-          steps {
-            moleculeTest(job)
+          stage("Run molecule test  ${job}") {
+            steps {
+              moleculeTest(job)
+            }
           }
         }
     }
