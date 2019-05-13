@@ -1,8 +1,6 @@
-import groovy.transform.Field
-
 //user class
 class Colors_pick{
-  @Field Integer fg, bg
+  Integer fg, bg
   /*
   +~~~~~~+~~~~~~+~~~~~~~~~~~+
   |  fg  |  bg  |  color    |
@@ -28,93 +26,76 @@ def printInfo(color, my_str){
     }
 }
 
-@Field def red_color = new Colors_pick(fg: 31, bg: 49)
-@Field def green_color = new Colors_pick(fg: 32, bg: 49)
-@Field def blue_color = new Colors_pick(fg: 34, bg: 49)
-@Field def magneta_color = new Colors_pick(fg: 35, bg: 49)
-
-def prepareEnv(){
-  println "${GIT_BRANCH}"
-  printInfo(green_color, 'Check if venv folder exist')
-
-  printInfo(magneta_color, 'PATH = ' + WORKSPACE + '/' + TESTDIR)
-  def folder = WORKSPACE + '/' + TESTDIR
-  def NEEDCLEANING = false
-  if( !fileExists(folder) ) {
-    printInfo(green_color, 'Folder not exist, continue...')
-  } else {
-    printInfo(red_color, 'Folder exist, need to cleanup')
-    NEEDCLEANING = true
-  }
-  if (NEEDCLEANING) {
-    printInfo(red_color, 'Delete folder')
-    dir ("${WORKSPACE}/${TESTDIR}") {
-        deleteDir()
-      }
-  }
-}
-
-def initEnv(){
-  ansiColor('xterm') {
-    sh """
-      # Green
-      echo "\033[32m"
-      virtualenv ${TESTDIR}
-      echo "\033[0m"
-
-      # Green
-      echo "\033[32m"
-      . ${TESTDIR}/bin/activate > /dev/null 2>&1
-      echo "\033[0m"
-
-      #Gray
-      echo "\033[37m"
-      pip install --upgrade ansible molecule docker
-      echo "\033[0m"
-    """
-  }
-}
-
-def displayVers(){
-  sh """
-    # Green
-    echo "\033[32m"
-    . ${TESTDIR}/bin/activate > /dev/null 2>&1
-    echo "\033[0m"
-
-    cd ${TESTDIR}
-
-    # Blue
-    echo "\033[34m"
-    docker -v
-    python -V
-    ansible --version
-    molecule --version
-    echo "\033[0m"
-  """
-}
-
-def moleculeTest(scenario_name){
-  sh """
-    #source virtenv/bin/activate
-    echo "molecule test -s ${scenario_name}"
-  """
-}
-
 def generateStage(job, node_name) {
     return {
         // node("${node_name}") {
+          def red_color = new Colors_pick(fg: 31, bg: 49)
+          def green_color = new Colors_pick(fg: 32, bg: 49)
+          def blue_color = new Colors_pick(fg: 34, bg: 49)
+          def magneta_color = new Colors_pick(fg: 35, bg: 49)
           stage ("Clean env to run test clearly for ${job}") {
-            prepareEnv()
+            println "${GIT_BRANCH}"
+            printInfo(green_color, 'Check if venv folder exist')
+
+            printInfo(magneta_color, 'PATH = ' + WORKSPACE + '/' + TESTDIR)
+            def folder = WORKSPACE + '/' + TESTDIR
+            def NEEDCLEANING = false
+            if( !fileExists(folder) ) {
+              printInfo(green_color, 'Folder not exist, continue...')
+            } else {
+              printInfo(red_color, 'Folder exist, need to cleanup')
+              NEEDCLEANING = true
+            }
+            if (NEEDCLEANING) {
+              printInfo(red_color, 'Delete folder')
+              dir ("${WORKSPACE}/${TESTDIR}") {
+                  deleteDir()
+                }
+            }
           }
           stage ("Setup Python virtual environment ${job}") {
-            initEnv()
+            ansiColor('xterm') {
+              sh """
+                # Green
+                echo "\033[32m"
+                virtualenv ${TESTDIR}
+                echo "\033[0m"
+
+                # Green
+                echo "\033[32m"
+                . ${TESTDIR}/bin/activate > /dev/null 2>&1
+                echo "\033[0m"
+
+                #Gray
+                echo "\033[37m"
+                pip install --upgrade ansible molecule docker
+                echo "\033[0m"
+              """
+            }
           }
           stage ("Display versions  ${job}") {
-            displayVers()
+            sh """
+              # Green
+              echo "\033[32m"
+              . ${TESTDIR}/bin/activate > /dev/null 2>&1
+              echo "\033[0m"
+
+              cd ${TESTDIR}
+
+              # Blue
+              echo "\033[34m"
+              docker -v
+              python -V
+              ansible --version
+              molecule --version
+              echo "\033[0m"
+            """
           }
           stage("Run molecule test  ${job}") {
-            moleculeTest(job)
+            sh """
+              #source virtenv/bin/activate
+              echo "molecule test -s ${scenario_name}"
+            """
           }
         // }
     }
