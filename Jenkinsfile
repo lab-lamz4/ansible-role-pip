@@ -118,7 +118,8 @@ def green_color = new Colors_pick(fg: 32, bg: 49)
 def blue_color = new Colors_pick(fg: 34, bg: 49)
 def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
-def scenarios = [default : 'node1', rhel7 : 'node2']
+// def scenarios = [default : 'node1', rhel7 : 'node2']
+def scenarios = [default : 'node1']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
     //["${it}" : generateStage(it)]
