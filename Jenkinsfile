@@ -35,7 +35,7 @@ def generateStage(job, node_name) {
           def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
           stage ("Clean env to run test clearly for ${job}") {
-            steps {
+            step {
               println "${GIT_BRANCH}"
               printInfo(green_color, 'Check if venv folder exist')
 
@@ -59,7 +59,7 @@ def generateStage(job, node_name) {
           }
 
           stage ("Setup Python virtual environment ${job}") {
-            steps {
+            step {
               ansiColor('xterm') {
                 sh """
                   # Green
@@ -82,7 +82,7 @@ def generateStage(job, node_name) {
           }
 
           stage ("Display versions  ${job}") {
-            steps {
+            step {
               sh """
                 # Green
                 echo "\033[32m"
@@ -103,7 +103,7 @@ def generateStage(job, node_name) {
           }
 
           stage("Run molecule test  ${job}") {
-            steps {
+            step {
               sh """
                 #source virtenv/bin/activate
                 echo "molecule test -s ${job}"
