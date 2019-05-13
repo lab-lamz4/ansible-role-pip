@@ -96,7 +96,7 @@ def moleculeTest(scenario_name){
 
 def generateStage(job, node_name) {
     return {
-        node("${node_name}") {
+        // node("${node_name}") {
           stage ("Clean env to run test clearly for ${job}") {
             prepareEnv()
           }
@@ -109,7 +109,7 @@ def generateStage(job, node_name) {
           stage("Run molecule test  ${job}") {
             moleculeTest(job)
           }
-        }
+        // }
     }
 }
 
