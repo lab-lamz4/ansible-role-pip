@@ -98,24 +98,16 @@ def generateStage(job, node_name) {
     return {
         node("${node_name}") {
           stage ("Clean env to run test clearly for ${job}") {
-            step {
-              prepareEnv()
-            }
+            prepareEnv()
           }
           stage ("Setup Python virtual environment ${job}") {
-            step {
-              initEnv()
-            }
+            initEnv()
           }
           stage ("Display versions  ${job}") {
-            step {
-              displayVers()
-            }
+            displayVers()
           }
           stage("Run molecule test  ${job}") {
-            step {
-              moleculeTest(job)
-            }
+            moleculeTest(job)
           }
         }
     }
