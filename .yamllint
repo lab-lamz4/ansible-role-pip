@@ -1,6 +1,6 @@
 ---
 extends: default
-
+exclude: ./virtenv
 rules:
   braces:
     max-spaces-inside: 1
