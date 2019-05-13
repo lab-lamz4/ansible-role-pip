@@ -2,7 +2,7 @@ import groovy.transform.Field
 
 //user class
 class Colors_pick{
-  Integer fg, bg
+  @Field Integer fg, bg
   /*
   +~~~~~~+~~~~~~+~~~~~~~~~~~+
   |  fg  |  bg  |  color    |
@@ -31,7 +31,7 @@ def printInfo(color, my_str){
 @Field def red_color = new Colors_pick(fg: 31, bg: 49)
 @Field def green_color = new Colors_pick(fg: 32, bg: 49)
 @Field def blue_color = new Colors_pick(fg: 34, bg: 49)
-@Field def magneta_color = new Colors_pick(fg: 35, bg: 49) 
+@Field def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
 def prepareEnv(){
   println "${GIT_BRANCH}"
