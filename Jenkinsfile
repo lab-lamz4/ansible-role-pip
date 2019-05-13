@@ -1,3 +1,5 @@
+import groovy.transform.Field
+
 //user class
 class Colors_pick{
   Integer fg, bg
@@ -25,6 +27,11 @@ def printInfo(color, my_str){
       println(style+my_str+reset_colors)
     }
 }
+
+@Field def red_color = new Colors_pick(fg: 31, bg: 49)
+@Field def green_color = new Colors_pick(fg: 32, bg: 49)
+@Field def blue_color = new Colors_pick(fg: 34, bg: 49)
+@Field def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
 def prepareEnv(){
   println "${GIT_BRANCH}"
@@ -149,10 +156,6 @@ pipeline {
     stage('parallel stage') {
       steps {
         script {
-          def red_color = new Colors_pick(fg: 31, bg: 49)
-          def green_color = new Colors_pick(fg: 32, bg: 49)
-          def blue_color = new Colors_pick(fg: 34, bg: 49)
-          def magneta_color = new Colors_pick(fg: 35, bg: 49)
           parallel parallelStagesMap
         }
       }
