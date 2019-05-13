@@ -28,7 +28,7 @@ def printInfo(color, my_str){
 
 def generateStage(job, node_name) {
     return {
-        // node("${node_name}") {
+        node("${node_name}") {
           def red_color = new Colors_pick(fg: 31, bg: 49)
           def green_color = new Colors_pick(fg: 32, bg: 49)
           def blue_color = new Colors_pick(fg: 34, bg: 49)
@@ -94,15 +94,15 @@ def generateStage(job, node_name) {
           stage("Run molecule test  ${job}") {
             sh """
               #source virtenv/bin/activate
-              echo "molecule test -s ${scenario_name}"
+              echo "molecule test -s ${job}"
             """
           }
-        // }
+        }
     }
 }
 
-// def scenarios = [default : 'node1', rhel7 : 'node2']
-def scenarios = [default : 'node1']
+def scenarios = [default : 'node1', rhel7 : 'node2']
+// def scenarios = [default : 'node1']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
     //["${it}" : generateStage(it)]
