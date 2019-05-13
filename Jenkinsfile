@@ -96,35 +96,48 @@ def moleculeTest(scenario_name){
   """
 }
 
-def stagesDo(molecule_scenario){
-  stages {
-    stage ('Clean env to run test clearly') {
-      steps {
-        prepareEnv()
-      }
+def parallelStagesMap = scenarios.collectEntries( [:] ) { sn, node ->
+    ["${sn}", generateStage(sn, node)]
+    //["${it}" : generateStage(it)]
+}
+
+def generateStage(job, node) {
+    return {
+        agent {
+          label "${node}"
+        }
+        stage ("Clean env to run test clearly for ${job}") {
+          steps {
+            prepareEnv()
+          }
+        }
+        stage ("Setup Python virtual environment ${job}") {
+          steps {
+            initEnv()
+          }
+        }
+        stage ("Display versions  ${job}") {
+          steps {
+            displayVers()
+          }
+        }
+        stage("Run molecule test  ${job}") {
+          steps {
+            moleculeTest(job)
+          }
+        }
     }
-    stage ('Setup Python virtual environment') {
-      steps {
-        initEnv()
-      }
-    }
-    stage ('Display versions') {
-      steps {
-        displayVers()
-      }
-    }
-    stage('Run molecule test') {
-      steps {
-        moleculeTest(molecule_scenario)
-      }
-    }
-  }
 }
 
 def red_color = new Colors_pick(fg: 31, bg: 49)
 def green_color = new Colors_pick(fg: 32, bg: 49)
 def blue_color = new Colors_pick(fg: 34, bg: 49)
 def magneta_color = new Colors_pick(fg: 35, bg: 49)
+
+def scenarios = ['default' : 'node1', 'rhel7' : 'node2']
+
+
+
 
 pipeline {
 
@@ -144,27 +157,18 @@ pipeline {
 
 
   stages {
-    parallel {
-      stages {
-        // when {
-        //   branch 'master'
-        // }
-        // when { equals expected: 2, actual: currentBuild.number }
+    stage('non-parallel stage') {
+      steps {
+        echo 'This stage will be executed first.'
+      }
+    }
 
-        stage('default scenario') {
-          agent {
-            label "node1"
-          }
-          stagesDo('default')
-        }
-        stage('rhel7 scenario') {
-          agent {
-            label "node2"
-          }
-          stagesDo('rhel7')
+    stage('parallel stage') {
+      steps {
+        script {
+          parallel parallelStagesMap
         }
       }
-
     }
   }
 }
