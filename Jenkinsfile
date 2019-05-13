@@ -96,7 +96,7 @@ def moleculeTest(scenario_name){
   """
 }
 
-def parallelStagesMap = scenarios.collectEntries( [:] ) { sn, node ->
+def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
     //["${it}" : generateStage(it)]
 }
