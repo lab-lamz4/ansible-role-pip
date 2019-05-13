@@ -112,7 +112,9 @@ def parallelStagesMap = scenarios.collectEntries { sn, node ->
 
 pipeline {
 
-  agent any
+  agent {
+    label 'master'
+  }
 
   parameters {
         string(name: 'TESTDIR', defaultValue: 'virtenv')
