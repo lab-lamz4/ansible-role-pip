@@ -26,8 +26,6 @@ def printInfo(color, my_str){
     }
 }
 
-
-
 def prepareEnv(){
   println "${GIT_BRANCH}"
   printInfo(green_color, 'Check if venv folder exist')
@@ -99,10 +97,6 @@ def moleculeTest(scenario_name){
 def generateStage(job, node_name) {
     return {
         // node("${node_name}") {
-          def red_color = new Colors_pick(fg: 31, bg: 49)
-          def green_color = new Colors_pick(fg: 32, bg: 49)
-          def blue_color = new Colors_pick(fg: 34, bg: 49)
-          def magneta_color = new Colors_pick(fg: 35, bg: 49)
           stage ("Clean env to run test clearly for ${job}") {
             prepareEnv()
           }
@@ -155,6 +149,10 @@ pipeline {
     stage('parallel stage') {
       steps {
         script {
+          def red_color = new Colors_pick(fg: 31, bg: 49)
+          def green_color = new Colors_pick(fg: 32, bg: 49)
+          def blue_color = new Colors_pick(fg: 34, bg: 49)
+          def magneta_color = new Colors_pick(fg: 35, bg: 49)
           parallel parallelStagesMap
         }
       }
