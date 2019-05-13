@@ -27,25 +27,23 @@ def printInfo(color, my_str){
 }
 
 def prepareEnv(){
-  echo GIT_BRANCH
-  script {
-    printInfo(green_color, 'Check if venv folder exist')
+  println "${GIT_BRANCH}"
+  printInfo(green_color, 'Check if venv folder exist')
 
-    printInfo(magneta_color, 'PATH = ' + WORKSPACE + '/' + TESTDIR)
-    def folder = WORKSPACE + '/' + TESTDIR
-    def NEEDCLEANING = false
-    if( !fileExists(folder) ) {
-      printInfo(green_color, 'Folder not exist, continue...')
-    } else {
-      printInfo(red_color, 'Folder exist, need to cleanup')
-      NEEDCLEANING = true
-    }
-    if (NEEDCLEANING) {
-      printInfo(red_color, 'Delete folder')
-      dir ("${WORKSPACE}/${TESTDIR}") {
-          deleteDir()
-        }
-    }
+  printInfo(magneta_color, 'PATH = ' + WORKSPACE + '/' + TESTDIR)
+  def folder = WORKSPACE + '/' + TESTDIR
+  def NEEDCLEANING = false
+  if( !fileExists(folder) ) {
+    printInfo(green_color, 'Folder not exist, continue...')
+  } else {
+    printInfo(red_color, 'Folder exist, need to cleanup')
+    NEEDCLEANING = true
+  }
+  if (NEEDCLEANING) {
+    printInfo(red_color, 'Delete folder')
+    dir ("${WORKSPACE}/${TESTDIR}") {
+        deleteDir()
+      }
   }
 }
 
