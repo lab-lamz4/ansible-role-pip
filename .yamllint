@@ -3,7 +3,7 @@ extends: default
 
 ignore: |
   molecule
-  virtenv/*
+  virtenv
 
 rules:
   braces:
