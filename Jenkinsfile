@@ -115,8 +115,8 @@ def generateStage(job, node_name) {
     }
 }
 
-// def scenarios = [default : 'node1', rhel7 : 'node2']
-def scenarios = [default : 'node1', debian9 : 'node2']
+def scenarios = [debian9 : 'node2']
+// def scenarios = [default : 'node1', debian9 : 'node2']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
 }
