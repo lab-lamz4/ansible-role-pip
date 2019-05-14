@@ -104,7 +104,7 @@ def generateStage(job, node_name) {
           stage("Run molecule test  ${job}") {
             sh """
               . ${TESTDIR}/bin/activate > /dev/null 2>&1
-              molecule test -s ${job}
+              molecule --debug test -s ${job}
             """
           }
         }
