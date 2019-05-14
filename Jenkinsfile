@@ -83,36 +83,40 @@ def generateStage(job, node_name) {
           }
 
           stage ("Display versions  ${job}") {
-            sh """
-              # Green
-              echo "\033[32m"
-              . ${TESTDIR}/bin/activate > /dev/null 2>&1
-              echo "\033[0m"
+            ansiColor('xterm') {
+              sh """
+                # Green
+                echo "\033[32m"
+                . ${TESTDIR}/bin/activate > /dev/null 2>&1
+                echo "\033[0m"
 
-              cd ${TESTDIR}
+                cd ${TESTDIR}
 
-              # Blue
-              echo "\033[34m"
-              docker -v
-              python -V
-              ansible --version
-              molecule --version
-              echo "\033[0m"
-            """
+                # Blue
+                echo "\033[34m"
+                docker -v
+                python -V
+                ansible --version
+                molecule --version
+                echo "\033[0m"
+              """
+            }
           }
 
           stage("Run molecule test  ${job}") {
-            sh """
-              . ${TESTDIR}/bin/activate > /dev/null 2>&1
-              molecule --debug test -s ${job}
-            """
+            ansiColor('xterm') {
+              sh """
+                . ${TESTDIR}/bin/activate > /dev/null 2>&1
+                molecule test -s ${job}
+              """
+            }
           }
         }
     }
 }
 
 // def scenarios = [default : 'node1', rhel7 : 'node2']
-def scenarios = [default : 'node1']
+def scenarios = [default : 'node1', debian9 : 'node2']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
 }
