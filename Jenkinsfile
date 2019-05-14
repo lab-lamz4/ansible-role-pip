@@ -35,7 +35,7 @@ def generateStage(job, node_name) {
           def magneta_color = new Colors_pick(fg: 35, bg: 49)
 
           stage ("Clean env to run test clearly for ${job}") {
-            println "${GIT_BRANCH}"
+
             printInfo(green_color, 'Check if venv folder exist')
 
             printInfo(magneta_color, 'PATH = ' + WORKSPACE + '/' + TESTDIR)
@@ -52,6 +52,12 @@ def generateStage(job, node_name) {
               dir ("${WORKSPACE}/${TESTDIR}") {
                   deleteDir()
                 }
+            }
+          }
+
+          stage('Get fresh code from master') {
+            dir(WORKSPACE) {
+              unstash "git-stash"
             }
           }
 
@@ -133,9 +139,10 @@ pipeline {
 
 
   stages {
-    stage('non-parallel stage') {
+    stage('Put files to slaves') {
       steps {
-        echo 'This stage will be executed first.'
+        echo "${GIT_BRANCH}"
+        stash name: "git-stash", excludes: "virtenv/*"
       }
     }
 
