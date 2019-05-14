@@ -123,7 +123,10 @@ def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
 }
 
-
+def getFolderName() {
+    def array = pwd().split("/")
+    return array[array.length - 2];
+}
 
 pipeline {
 
@@ -137,6 +140,7 @@ pipeline {
 
   environment {
         def TESTDIR = "${params.TESTDIR}"
+        def FOLDER = getFolderName()
       }
 
   options {
@@ -148,6 +152,7 @@ pipeline {
     stage('Put files to slaves') {
       steps {
         echo "${GIT_BRANCH}"
+        echo "${FOLDER}"
         stash name: "git-stash", excludes: "virtenv/*"
       }
     }

@@ -1,8 +1,11 @@
 ---
-- name: Ensure Pip is installed.
-  package:
-    name: "{{ pip_package }}"
-    state: present
+- name: Choose OS based tasks
+  include_tasks: '{{ system_spec }}'
+  with_first_found:
+    - '{{ ansible_system }}/{{ ansible_distribution }}-{{ ansible_distribution_version[:1] }}.yml'
+    - '{{ ansible_system }}/other.yml'
+  loop_control:
+    loop_var: system_spec
 
 - name: Ensure pip_install_packages are installed.
   pip:

@@ -1,0 +1,13 @@
+---
+- name: 'Download script from bootstrap.pypa.io'
+  get_url:
+    url: 'https://bootstrap.pypa.io/get-pip.py'
+    dest: '/usr/src/get-pip.py'
+  register: file_downloaded
+  retries: 2
+  delay: 5
+  until: file_downloaded is succeeded
+
+- name: Include pip install
+  command: python2.7 /usr/src/get-pip.py
+  when: file_downloaded is changed

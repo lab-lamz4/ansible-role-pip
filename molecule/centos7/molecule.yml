@@ -9,12 +9,10 @@ lint:
     config-file: .yamllint
 platforms:
   - name: centos7
-    image: "centos:centos7"
-    #command: ${MOLECULE_DOCKER_COMMAND:-""}
+    image: "centos:moleculetest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
-    pre_build_image: true
 provisioner:
   name: ansible
   lint:
