@@ -81,7 +81,7 @@ def generateStage(job, node_name) {
 
                 #Gray
                 echo "\033[37m"
-                pip install --upgrade ansible molecule docker
+                pip install --upgrade ansible molecule docker  > /dev/null 2>&1
                 echo "\033[0m"
               """
             }
