@@ -121,8 +121,7 @@ def generateStage(job, node_name) {
     }
 }
 
-//def scenarios = [debian9 : 'node2']
-def scenarios = [centos7 : 'node1']
+def scenarios = [centos7 : 'node1', debian9 : 'node2', centos6 : 'node1']
 // def scenarios = [default : 'node1', debian9 : 'node2']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
@@ -145,6 +144,9 @@ pipeline {
 
   options {
         parallelsAlwaysFailFast()
+        buildDiscarder(logRotator(numToKeepStr:'10'))
+        timeout(time: 5, unit: 'MINUTES')
+        ansiColor('xterm')
     }
 
 
