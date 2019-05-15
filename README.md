@@ -160,24 +160,15 @@ Playbook for these actions like this:
 ```
 
 1. Create credentials for github (generate ssh-key, put public key to deployment keys for your repository, configure jenkins with private key)
-
 2. Create Multibranch Pipeline.
-
 3. Set name and description
-
 4. Configure Branch Sources with Git
-
-4.1. Project Repository    -  https://github.com/lab-lamz4/ansible-role-pip
-
-4.2. Credentials - early created in first step
-
-4.3. Build Configuration - by Jenkinsfile
-
-4.4. Scan Multibranch Pipeline Triggers - Periodically if not otherwise run 2minutes
-
-4.5. Orphaned Item Strategy - checked
-
-Save.
+5. Project Repository    -  https://github.com/lab-lamz4/ansible-role-pip
+6. Credentials - early created in first step
+7. Build Configuration - by Jenkinsfile
+8. Scan Multibranch Pipeline Triggers - Periodically if not otherwise run 2minutes
+9. Orphaned Item Strategy - checked
+10. Save
 
 Pipeline:
 
