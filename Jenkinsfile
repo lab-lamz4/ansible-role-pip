@@ -1,4 +1,4 @@
-//user class
+// color settings
 class Colors_pick{
   Integer fg, bg
   /*
@@ -26,11 +26,13 @@ def printInfo(color, my_str){
     }
 }
 
+// Get dirictory name, used in playbook.yml
 def getFolderName() {
     def array = pwd().split("/")
     return array[array.length - 1];
 }
 
+// This logic will run in parallel
 def generateStage(job, node_name) {
     return {
         node("${node_name}") {
@@ -121,6 +123,7 @@ def generateStage(job, node_name) {
     }
 }
 
+// Define scenario names and set node where it will run.
 def scenarios = [centos7 : 'node1', debian9 : 'node2', centos6 : 'node1']
 // def scenarios = [default : 'node1', debian9 : 'node2']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
@@ -138,6 +141,7 @@ pipeline {
       }
 
   environment {
+        // virtualenv dir name
         def TESTDIR = "${params.TESTDIR}"
         def FOLDER = getFolderName()
       }
