@@ -145,7 +145,7 @@ pipeline {
   options {
         parallelsAlwaysFailFast()
         buildDiscarder(logRotator(numToKeepStr:'10'))
-        timeout(time: 5, unit: 'MINUTES')
+        // timeout(time: 5, unit: 'MINUTES')
         ansiColor('xterm')
     }
 
