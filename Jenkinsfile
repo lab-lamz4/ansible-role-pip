@@ -26,6 +26,11 @@ def printInfo(color, my_str){
     }
 }
 
+def getFolderName() {
+    def array = pwd().split("/")
+    return array[array.length - 1];
+}
+
 def generateStage(job, node_name) {
     return {
         node("${node_name}") {
@@ -121,11 +126,6 @@ def scenarios = [centos7 : 'node1']
 // def scenarios = [default : 'node1', debian9 : 'node2']
 def parallelStagesMap = scenarios.collectEntries { sn, node ->
     ["${sn}", generateStage(sn, node)]
-}
-
-def getFolderName() {
-    def array = pwd().split("/")
-    return array[array.length - 2];
 }
 
 pipeline {
