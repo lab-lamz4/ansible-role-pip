@@ -151,8 +151,11 @@ pipeline {
   stages {
     stage('Put files to slaves') {
       steps {
-        echo "${GIT_BRANCH}"
-        echo "${FOLDER}"
+        script{
+          def green_color = new Colors_pick(fg: 32, bg: 49)
+          printInfo(green_color, "IN BRANCH: ${GIT_BRANCH}")
+          printInfo(green_color, "FOLDER IS: ${FOLDER}")
+        }
         stash name: "git-stash", excludes: "virtenv/*"
       }
     }

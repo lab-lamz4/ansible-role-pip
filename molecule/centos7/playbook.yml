@@ -17,4 +17,4 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: ansible-role-pip2_${GIT_BRANCH}
+    - role: "${FOLDER}"
